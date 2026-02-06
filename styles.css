@@ -135,3 +135,73 @@ h1{
 .actions2{
   grid-template-columns: 1.4fr .8fr .8fr;
 }
+.actions2{ grid-template-columns: 1.4fr .8fr .8fr; }
+
+.modal{ position:fixed; inset:0; display:none; z-index:50; }
+.modal.isOpen{ display:block; }
+
+.modalBackdrop{
+  position:absolute; inset:0;
+  background: rgba(0,0,0,.55);
+}
+
+.modalPanel{
+  position:relative;
+  width:min(520px, calc(100% - 24px));
+  margin: 10vh auto;
+  background: rgba(18,26,42,.96);
+  border:1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 50px rgba(0,0,0,.55);
+  padding:16px;
+}
+
+.modalHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.modalHeader h2{
+  margin:0;
+  font-size:18px;
+}
+
+.iconBtn{
+  width:40px; height:40px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  cursor:pointer;
+  font-size:16px;
+}
+
+.modalSub{ margin:8px 0 14px; color:var(--muted); font-size:13px; }
+
+.form{ display:flex; flex-direction:column; gap:10px; }
+.formRow label{ display:block; font-size:12px; color:var(--muted); margin-bottom:6px; }
+
+.formRow input, .formRow select, .formRow textarea{
+  width:100%;
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background: rgba(255,255,255,.05);
+  color: var(--text);
+  outline:none;
+}
+
+.formRow textarea{ resize: vertical; }
+
+.formActions{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+  margin-top:6px;
+}
+
+.tiny{ margin:6px 0 0; font-size:12px; color: var(--muted); text-align:center; }
+
+.hp{ display:none !important; }

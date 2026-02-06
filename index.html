@@ -24,13 +24,11 @@
     </p>
 
     <section class="actions actions2">
-      <a class="btn primary" id="quoteBtn"
-        href="mailto:wr@hubspiral.com?subject=Request%20a%20Quote&body=Hi%20Wazir%2C%0A%0AI%27d%20like%20a%20quote%20for%20a%20website.%0A%0AProject%20type%3A%20(new%20site%2Fredo%2Flanding%20page%2Fe-commerce)%0ABusiness%20name%3A%0ABudget%20range%3A%0ATimeline%3A%0APages%20needed%3A%0AFeatures%20(booking%2Fpayments%2Fforms%2Fblog%2Fetc)%3A%0AExample%20sites%20you%20like%3A%0ABest%20way%20to%20reach%20you%3A%0A%0AThanks!"
-      >Request a Quote</a>
-
-      <a class="btn" id="callBtn" href="tel:+15033803014">Call</a>
+      <button class="btn primary" id="openQuoteBtn" type="button">Request a Quote</button>
+      <a class="btn" id="callBtn" href="tel:+15033813014">Call</a>
       <a class="btn" id="emailBtn" href="mailto:wr@hubspiral.com">Email</a>
     </section>
+
 
 
     <section class="links">
@@ -48,6 +46,95 @@
     <footer class="footer">
       <small>Tip: Add this link to an NFC card / QR code.</small>
     </footer>
+
+    <!-- Quote Modal -->
+<div class="modal" id="quoteModal" aria-hidden="true">
+  <div class="modalBackdrop" id="closeQuoteBackdrop"></div>
+
+  <div class="modalPanel" role="dialog" aria-modal="true" aria-labelledby="quoteTitle">
+    <div class="modalHeader">
+      <h2 id="quoteTitle">Request a Quote</h2>
+      <button class="iconBtn" id="closeQuoteBtn" type="button" aria-label="Close">✕</button>
+    </div>
+
+    <p class="modalSub">
+      Tell me what you need — I’ll reply with questions + a price range.
+    </p>
+
+    <!-- IMPORTANT: Replace the action URL after you set up Formspree -->
+    <form id="quoteForm" class="form" method="POST" action="https://formspree.io/f/xkovweno">
+      <div class="formRow">
+        <label>Name</label>
+        <input name="name" type="text" placeholder="Your name" required />
+      </div>
+
+      <div class="formRow">
+        <label>Email</label>
+        <input name="email" type="email" placeholder="you@email.com" required />
+      </div>
+
+      <div class="formRow">
+        <label>Phone</label>
+        <input name="phone" type="tel" placeholder="503-xxx-xxxx" />
+      </div>
+
+      <div class="formRow">
+        <label>Project type</label>
+        <select name="project_type" required>
+          <option value="" selected disabled>Select one</option>
+          <option>New website</option>
+          <option>Redesign</option>
+          <option>Landing page</option>
+          <option>E-commerce</option>
+          <option>Web app / custom build</option>
+          <option>Fix / cleanup / speed</option>
+        </select>
+      </div>
+
+      <div class="formRow">
+        <label>Budget range</label>
+        <select name="budget">
+          <option value="" selected disabled>Select one</option>
+          <option>$500–$1,500</option>
+          <option>$1,500–$3,500</option>
+          <option>$3,500–$7,500</option>
+          <option>$7,500+</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+
+      <div class="formRow">
+        <label>Timeline</label>
+        <select name="timeline">
+          <option value="" selected disabled>Select one</option>
+          <option>ASAP</option>
+          <option>2–4 weeks</option>
+          <option>1–2 months</option>
+          <option>2+ months</option>
+        </select>
+      </div>
+
+      <div class="formRow">
+        <label>What do you need?</label>
+        <textarea name="details" rows="5" placeholder="Pages, features, examples you like, goals…" required></textarea>
+      </div>
+
+      <!-- Honeypot anti-spam -->
+      <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" />
+
+      <!-- Optional: subject line on incoming email -->
+      <input type="hidden" name="_subject" value="HubSpiral Quote Request" />
+
+      <div class="formActions">
+        <button class="btn primary" type="submit" id="submitQuoteBtn">Send Request</button>
+        <a class="btn ghost" href="sms:+15033813014">Text Instead</a>
+      </div>
+
+      <p class="tiny" id="quoteStatus" aria-live="polite"></p>
+    </form>
+  </div>
+</div>
+
   </main>
 
   <script src="./app.js"></script>
