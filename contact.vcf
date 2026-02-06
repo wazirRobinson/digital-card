@@ -1,10 +1,10 @@
 BEGIN:VCARD
 VERSION:3.0
 N:Robinson;Wazir;;;
-FN:Wazir
+FN:Wazir Robinson
 ORG:Hubspiral LLC
-TITLE:Founder
-TEL;TYPE=CELL:+1503381-3014
+TITLE:Web Developer
+TEL;TYPE=CELL:+15033813014
 EMAIL:wr@hubspiral.com
 URL:https://hubspiral.com
 ADR;TYPE=WORK:;;Gresham;OR;;USA
