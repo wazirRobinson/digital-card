@@ -132,3 +132,6 @@ h1{
   color:var(--muted);
   text-align:center;
 }
+.actions2{
+  grid-template-columns: 1.4fr .8fr .8fr;
+}
