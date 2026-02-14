@@ -9,11 +9,29 @@ const latEl = document.getElementById("lat");
 const lngEl = document.getElementById("lng");
 const accEl = document.getElementById("acc");
 
-// ✅ Make sure you also added this hidden input in index.html:
-// <input type="hidden" name="map_link" id="map_link" />
+// ✅ Hidden map_link input (already in your HTML)
 const mapLinkEl = document.getElementById("map_link");
 
+// ✅ Visible map preview link (NEW in your HTML)
+const mapPreview = document.getElementById("mapPreview");
+
 updatedAt.textContent = new Date().toLocaleDateString();
+
+/** Map preview helpers */
+function hideMapPreview() {
+  if (!mapPreview) return;
+  mapPreview.style.display = "none";
+  mapPreview.href = "#";
+}
+
+function showMapPreview(url) {
+  if (!mapPreview) return;
+  mapPreview.href = url;
+  mapPreview.style.display = "inline-block";
+}
+
+// Ensure it starts hidden on load
+hideMapPreview();
 
 /** LOST & FOUND: Copy a helpful message template (optional) */
 copyMsgBtn?.addEventListener("click", async () => {
@@ -31,6 +49,8 @@ copyMsgBtn?.addEventListener("click", async () => {
 getLocBtn?.addEventListener("click", () => {
   if (!navigator.geolocation) {
     statusMsg.textContent = "Location not supported on this device.";
+    if (mapLinkEl) mapLinkEl.value = "";
+    hideMapPreview();
     return;
   }
 
@@ -48,6 +68,9 @@ getLocBtn?.addEventListener("click", () => {
       const mapUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
       if (mapLinkEl) mapLinkEl.value = mapUrl;
 
+      // ✅ NEW: show the visible “View location on map” link
+      showMapPreview(mapUrl);
+
       statusMsg.textContent = "📍 Location added.";
     },
     (err) => {
@@ -58,6 +81,10 @@ getLocBtn?.addEventListener("click", () => {
         3: "Location timed out. Try again.",
       };
       statusMsg.textContent = `⚠️ ${map[err.code] || "Location permission denied or unavailable."}`;
+
+      // ✅ NEW: clear/hide map preview and stored map link on error
+      if (mapLinkEl) mapLinkEl.value = "";
+      hideMapPreview();
     },
     { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 }
   );
@@ -82,19 +109,24 @@ form?.addEventListener("submit", (e) => {
   const note = (form.querySelector('input[name="note"]')?.value || "").trim();
 
   // Location fields (only present if you tapped "Add Location")
-  const lat = latEl?.value || "";
-  const lng = lngEl?.value || "";
   const acc = accEl?.value || "";
   const mapLink =
     (mapLinkEl?.value || "").trim() ||
-    (lat && lng ? `https://maps.google.com/?q=${lat},${lng}` : "");
+    ((latEl?.value && lngEl?.value)
+      ? `https://maps.google.com/?q=${latEl.value},${lngEl.value}`
+      : "");
+
+  // ✅ Improved fallback copy when location isn’t available
+  const mapLine = mapLink
+    ? `Map: ${mapLink}`
+    : "Map: (NOT shared — GPS unavailable/denied). Reply and I’ll send my address or nearest intersection.";
 
   const lines = [
     "CHECK-IN",
     `Name: ${person}`,
     `Status: ${status}`,
     note ? `Note: ${note}` : "",
-    mapLink ? `Map: ${mapLink}` : "Map: (not shared)",
+    mapLine,
     acc ? `Accuracy: ±${acc}m` : "",
     `Time: ${new Date().toLocaleString()}`,
   ].filter(Boolean);
