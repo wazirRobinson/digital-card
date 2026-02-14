@@ -176,3 +176,34 @@ input:focus{
   .grid{ grid-template-columns:1fr }
   .btn{ font-size:17px }
 }
+/* ================================
+   MAP PREVIEW BUTTON
+   ================================ */
+
+#mapPreview {
+  display: none;          /* hidden by default */
+  margin-top: 10px;
+  height: 52px;           /* match .btn height */
+}
+
+/* When JS shows it, force flex so vertical centering works */
+#mapPreview.is-visible {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* ================================
+   MAP PREVIEW BUTTON
+   ================================ */
+
+#mapPreview {
+  display: none;          /* hidden by default */
+  margin-top: 10px;
+  height: 52px;           /* match .btn */
+}
+
+#mapPreview.is-visible {
+  display: flex;          /* MUST be flex for vertical centering */
+  align-items: center;
+  justify-content: center;
+}
