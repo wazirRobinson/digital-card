@@ -9,8 +9,13 @@ const latEl = document.getElementById("lat");
 const lngEl = document.getElementById("lng");
 const accEl = document.getElementById("acc");
 
+// ✅ Make sure you also added this hidden input in index.html:
+// <input type="hidden" name="map_link" id="map_link" />
+const mapLinkEl = document.getElementById("map_link");
+
 updatedAt.textContent = new Date().toLocaleDateString();
 
+/** LOST & FOUND: Copy a helpful message template (optional) */
 copyMsgBtn?.addEventListener("click", async () => {
   const msg = "I found your item near ____. My name is ____. Call me at ____.";
   try {
@@ -22,6 +27,7 @@ copyMsgBtn?.addEventListener("click", async () => {
   }
 });
 
+/** LOCATION: one-time snapshot (user must tap button + allow permission) */
 getLocBtn?.addEventListener("click", () => {
   if (!navigator.geolocation) {
     statusMsg.textContent = "Location not supported on this device.";
@@ -33,55 +39,78 @@ getLocBtn?.addEventListener("click", () => {
   navigator.geolocation.getCurrentPosition(
     (pos) => {
       const { latitude, longitude, accuracy } = pos.coords;
+
       latEl.value = String(latitude);
       lngEl.value = String(longitude);
       accEl.value = String(Math.round(accuracy));
 
+      // Build a map link so family can tap it (no copy/paste needed)
       const mapUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
-      document.getElementById("map_link").value = mapUrl;
+      if (mapLinkEl) mapLinkEl.value = mapUrl;
 
-      statusMsg.textContent = `📍 Location added.`;
-
+      statusMsg.textContent = "📍 Location added.";
     },
-    () => {
-      statusMsg.textContent = "Location permission denied or unavailable.";
+    (err) => {
+      // More helpful error messaging
+      const map = {
+        1: "Location permission denied. Enable it in browser/site settings.",
+        2: "Location unavailable. Try moving outdoors or turning on Location Services.",
+        3: "Location timed out. Try again.",
+      };
+      statusMsg.textContent = `⚠️ ${map[err.code] || "Location permission denied or unavailable."}`;
     },
-    { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
+    { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 }
   );
 });
 
-// Optional: AJAX submit for a nicer UX. Also provides a fallback if you haven't set Formspree yet.
-form?.addEventListener("submit", async (e) => {
-  const action = form.getAttribute("action") || "";
-  if (action.includes("REPLACE_ME")) {
-    e.preventDefault();
-    statusMsg.textContent = "Form endpoint not set yet. Create Formspree and paste the URL.";
-    return;
-  }
-
+/**
+ * CHECK-IN via SMS Draft (Option A)
+ * - Opens a pre-filled SMS so you can tap Send
+ * - Works without email services
+ */
+form?.addEventListener("submit", (e) => {
   e.preventDefault();
-  safeBtn.disabled = true;
-  statusMsg.textContent = "Sending check-in…";
 
-  try {
-    const res = await fetch(action, {
-      method: "POST",
-      body: new FormData(form),
-      headers: { Accept: "application/json" },
-    });
+  // Recipient: Wife (change if needed)
+  const to = "+15033813638";
 
-    if (res.ok) {
-      form.reset();
-      latEl.value = "";
-      lngEl.value = "";
-      accEl.value = "";
-      statusMsg.textContent = "✅ Check-in sent.";
-    } else {
-      statusMsg.textContent = "⚠️ Could not send. Try again or use a text/call option.";
-    }
-  } catch {
-    statusMsg.textContent = "⚠️ Network issue. Try again when online.";
-  } finally {
-    safeBtn.disabled = false;
-  }
+  // Since this card is only for you:
+  const person = "Wazir Robinson";
+  const status = "I’m safe";
+
+  // Optional note field (if present)
+  const note = (form.querySelector('input[name="note"]')?.value || "").trim();
+
+  // Location fields (only present if you tapped "Add Location")
+  const lat = latEl?.value || "";
+  const lng = lngEl?.value || "";
+  const acc = accEl?.value || "";
+  const mapLink =
+    (mapLinkEl?.value || "").trim() ||
+    (lat && lng ? `https://maps.google.com/?q=${lat},${lng}` : "");
+
+  const lines = [
+    "CHECK-IN",
+    `Name: ${person}`,
+    `Status: ${status}`,
+    note ? `Note: ${note}` : "",
+    mapLink ? `Map: ${mapLink}` : "Map: (not shared)",
+    acc ? `Accuracy: ±${acc}m` : "",
+    `Time: ${new Date().toLocaleString()}`,
+  ].filter(Boolean);
+
+  const smsBody = encodeURIComponent(lines.join("\n"));
+
+  // UX: show what’s happening
+  if (safeBtn) safeBtn.disabled = true;
+  statusMsg.textContent = "Opening text message…";
+
+  // Launch SMS app with prefilled message
+  window.location.href = `sms:${to}?&body=${smsBody}`;
+
+  // Re-enable button shortly (user may come back)
+  setTimeout(() => {
+    if (safeBtn) safeBtn.disabled = false;
+    statusMsg.textContent = "✅ Text draft opened. Tap Send.";
+  }, 1200);
 });
