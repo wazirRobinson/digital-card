@@ -22,12 +22,17 @@ function hideMapPreview() {
   if (!mapPreview) return;
   mapPreview.classList.remove("is-visible");
   mapPreview.setAttribute("href", "#");
+  // Ensure hidden even if CSS isn't loaded yet
+  mapPreview.style.display = "none";
 }
 
 function showMapPreview(url) {
   if (!mapPreview) return;
   mapPreview.setAttribute("href", url);
   mapPreview.classList.add("is-visible");
+
+  // ✅ Fallback: force flex so it shows + centers even if CSS is missing/overridden
+  mapPreview.style.display = "flex";
 }
 
 // Ensure it starts hidden on load
@@ -81,7 +86,7 @@ getLocBtn?.addEventListener("click", () => {
       const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
       if (mapLinkEl) mapLinkEl.value = mapUrl;
 
-      // ✅ Show visible map link via CSS class (no inline display)
+      // ✅ Show visible map link
       showMapPreview(mapUrl);
 
       statusMsg.textContent = "📍 Location added.";
