@@ -103,7 +103,7 @@ h2{
 
 .btn{
   height:52px;
-  display:inline-flex;
+  display:flex;
   align-items:center;
   justify-content:center;
   border-radius:14px;
@@ -111,10 +111,12 @@ h2{
   background:#111;
   color:#ffffff;
   text-decoration:none;
+  text-align: center;
   font-weight:900;
   font-size:16px;
   cursor:pointer;
   user-select:none;
+  gap: 0.4em;
 }
 
 /* PRIMARY = GREEN ACTION */
