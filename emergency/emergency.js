@@ -36,7 +36,12 @@ getLocBtn?.addEventListener("click", () => {
       latEl.value = String(latitude);
       lngEl.value = String(longitude);
       accEl.value = String(Math.round(accuracy));
-      statusMsg.textContent = `Location added (±${Math.round(accuracy)}m).`;
+
+      const mapUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
+      document.getElementById("map_link").value = mapUrl;
+
+      statusMsg.textContent = `📍 Location added.`;
+
     },
     () => {
       statusMsg.textContent = "Location permission denied or unavailable.";

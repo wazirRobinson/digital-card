@@ -54,8 +54,8 @@
         <h2>Emergency Contacts</h2>
 
         <div class="grid">
-          <a class="btn primary" href="tel:+15033813638">Call Wife</a>
-          <a class="btn" href="tel:+19712279270">Call Daughter</a>
+          <a class="btn primary" href="tel:+15033813638">Jynnefer (Wife)</a>
+          <a class="btn" href="tel:+19712279270">Tamia (Daughter)</a>
           <a class="btn"
              href="sms:+15033813638?&body=Hi%20-%20There%20is%20an%20emergency.%20Please%20call%20me%20back.">
             Text Primary
@@ -78,14 +78,14 @@
       <section class="block">
         <h2>Found This Item?</h2>
         <p class="muted">
-          Please contact the owner. If no answer, send a text with your name and where you found it.
+          Please contact the owner: Wazir. If no answer, send a text with your name and where you found it.
         </p>
 
         <div class="grid">
-          <a class="btn" href="tel:+15033813014">Call Owner</a>
+          <a class="btn" href="tel:+15033813014">Call Wazir</a>
           <a class="btn"
              href="sms:+15033813014?&body=I%20found%20your%20item%20near%20____.%20My%20name%20is%20____.%20Please%20call%20me.">
-            Text Owner
+            Text Wazir
           </a>
           <button class="btn ghost" id="copyMsgBtn" type="button">
             Copy Text Template
@@ -108,16 +108,9 @@
           <input type="hidden" name="_subject" value="Family Check-In" />
           <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" />
 
-          <label>
-            Who is checking in?
-            <select name="person" required>
-              <option value="" selected disabled>Select</option>
-              <option>Kid A</option>
-              <option>Kid B</option>
-              <option>Grandma</option>
-              <option>Other</option>
-            </select>
-          </label>
+          <input type="hidden" name="person" value="Wazir Robinson" />
+          <input type="hidden" name="map_link" id="map_link" />
+
 
           <label>
             Status
