@@ -21,17 +21,31 @@ updatedAt.textContent = new Date().toLocaleDateString();
 function hideMapPreview() {
   if (!mapPreview) return;
   mapPreview.style.display = "none";
-  mapPreview.href = "#";
+  mapPreview.setAttribute("href", "#");
 }
 
 function showMapPreview(url) {
   if (!mapPreview) return;
-  mapPreview.href = url;
-  mapPreview.style.display = "inline-block";
+  mapPreview.setAttribute("href", url);
+  // Use block for more consistent “button” behavior across CSS setups
+  mapPreview.style.display = "block";
 }
 
 // Ensure it starts hidden on load
 hideMapPreview();
+
+// ✅ HARD-OPEN handler (mobile reliable)
+if (!mapPreview) {
+  console.warn("mapPreview link not found. Check id='mapPreview' in /emergency/index.html");
+} else {
+  mapPreview.addEventListener("click", (e) => {
+    const url = (mapPreview.getAttribute("href") || "").trim();
+    if (!url || url === "#") return;
+
+    e.preventDefault();
+    window.open(url, "_blank", "noopener");
+  });
+}
 
 /** LOST & FOUND: Copy a helpful message template (optional) */
 copyMsgBtn?.addEventListener("click", async () => {
@@ -64,17 +78,16 @@ getLocBtn?.addEventListener("click", () => {
       lngEl.value = String(longitude);
       accEl.value = String(Math.round(accuracy));
 
-      // Build a map link so family can tap it (no copy/paste needed)
-      const mapUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
+      // ✅ More universal link format than maps.google.com
+      const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
       if (mapLinkEl) mapLinkEl.value = mapUrl;
 
-      // ✅ NEW: show the visible “View location on map” link
+      // Show the visible “View location on map” link
       showMapPreview(mapUrl);
 
       statusMsg.textContent = "📍 Location added.";
     },
     (err) => {
-      // More helpful error messaging
       const map = {
         1: "Location permission denied. Enable it in browser/site settings.",
         2: "Location unavailable. Try moving outdoors or turning on Location Services.",
@@ -82,7 +95,7 @@ getLocBtn?.addEventListener("click", () => {
       };
       statusMsg.textContent = `⚠️ ${map[err.code] || "Location permission denied or unavailable."}`;
 
-      // ✅ NEW: clear/hide map preview and stored map link on error
+      // Clear/hide map preview + stored map link on error
       if (mapLinkEl) mapLinkEl.value = "";
       hideMapPreview();
     },
@@ -110,13 +123,14 @@ form?.addEventListener("submit", (e) => {
 
   // Location fields (only present if you tapped "Add Location")
   const acc = accEl?.value || "";
+
   const mapLink =
     (mapLinkEl?.value || "").trim() ||
     ((latEl?.value && lngEl?.value)
-      ? `https://maps.google.com/?q=${latEl.value},${lngEl.value}`
+      ? `https://www.google.com/maps?q=${latEl.value},${lngEl.value}`
       : "");
 
-  // ✅ Improved fallback copy when location isn’t available
+  // Improved fallback copy when location isn’t available
   const mapLine = mapLink
     ? `Map: ${mapLink}`
     : "Map: (NOT shared — GPS unavailable/denied). Reply and I’ll send my address or nearest intersection.";
