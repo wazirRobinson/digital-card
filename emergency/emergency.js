@@ -12,23 +12,22 @@ const accEl = document.getElementById("acc");
 // ✅ Hidden map_link input (already in your HTML)
 const mapLinkEl = document.getElementById("map_link");
 
-// ✅ Visible map preview link (NEW in your HTML)
+// ✅ Visible map preview link
 const mapPreview = document.getElementById("mapPreview");
 
 updatedAt.textContent = new Date().toLocaleDateString();
 
-/** Map preview helpers */
+/** Map preview helpers (CSS-driven: uses .is-visible) */
 function hideMapPreview() {
   if (!mapPreview) return;
-  mapPreview.style.display = "none";
+  mapPreview.classList.remove("is-visible");
   mapPreview.setAttribute("href", "#");
 }
 
 function showMapPreview(url) {
   if (!mapPreview) return;
   mapPreview.setAttribute("href", url);
-  // Use block for more consistent “button” behavior across CSS setups
-  mapPreview.style.display = "block";
+  mapPreview.classList.add("is-visible");
 }
 
 // Ensure it starts hidden on load
@@ -78,11 +77,11 @@ getLocBtn?.addEventListener("click", () => {
       lngEl.value = String(longitude);
       accEl.value = String(Math.round(accuracy));
 
-      // ✅ More universal link format than maps.google.com
+      // ✅ Universal link format
       const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
       if (mapLinkEl) mapLinkEl.value = mapUrl;
 
-      // Show the visible “View location on map” link
+      // ✅ Show visible map link via CSS class (no inline display)
       showMapPreview(mapUrl);
 
       statusMsg.textContent = "📍 Location added.";
