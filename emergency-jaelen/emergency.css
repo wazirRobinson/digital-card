@@ -1,0 +1,209 @@
+/* ================================
+   EMERGENCY THEME
+   Red background / Black card / Green actions
+   ================================ */
+
+:root{
+  --bg-red:#7a0000;
+  --bg-red-dark:#4a0000;
+
+  --card:#000000;
+  --text:#ffffff;
+  --muted:#d6d6d6;
+  --line:rgba(255,255,255,.15);
+
+  --green:#1db954;
+  --green-dark:#14803a;
+
+  --radius:18px;
+}
+
+/* Reset */
+*{ box-sizing:border-box }
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(1200px 600px at 30% 10%, #b00000 0%, var(--bg-red) 45%, var(--bg-red-dark) 100%);
+  color:var(--text);
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+
+/* Layout */
+.wrap{
+  padding:18px;
+  display:flex;
+  justify-content:center;
+}
+
+.card{
+  width:100%;
+  max-width:520px;
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:16px;
+  border:2px solid #222;
+  box-shadow:0 20px 60px rgba(0,0,0,.8);
+}
+
+/* Header */
+.hdr h1{
+  margin:0;
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:.3px;
+}
+
+.sub{
+  margin:6px 0 0;
+  color:#ffcccc;
+  font-size:14px;
+  line-height:1.4;
+}
+
+/* Sections */
+.block{
+  margin-top:16px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+}
+
+h2{
+  margin:0 0 10px;
+  font-size:18px;
+  font-weight:800;
+}
+
+/* Lists */
+.list{
+  margin:0 0 10px;
+  padding-left:18px;
+  line-height:1.4;
+}
+
+.muted{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.tiny{
+  margin:10px 0 0;
+  font-size:12px;
+  color:#cccccc;
+  text-align:center;
+}
+
+/* Buttons */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.btn{
+  height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  border:2px solid #0f0f0f;
+  background:#111;
+  color:#ffffff;
+  text-decoration:none;
+  text-align: center;
+  font-weight:900;
+  font-size:16px;
+  cursor:pointer;
+  user-select:none;
+  gap: 0.4em;
+  line-height: normal;
+}
+
+/* PRIMARY = GREEN ACTION */
+.btn.primary{
+  background:linear-gradient(180deg, var(--green), var(--green-dark));
+  border-color:#0a5f2a;
+  color:#000000;
+  box-shadow:0 6px 18px rgba(29,185,84,.45);
+}
+
+/* GHOST = SECONDARY (911, COPY, ETC) */
+.btn.ghost{
+  background:transparent;
+  border:2px dashed #444;
+  color:#ffffff;
+}
+
+/* Inputs */
+label{
+  display:block;
+  margin:12px 0;
+  font-size:13px;
+  color:#cccccc;
+}
+
+select,
+input{
+  width:100%;
+  margin-top:6px;
+  padding:14px;
+  border-radius:14px;
+  border:2px solid #222;
+  background:#0d0d0d;
+  color:#ffffff;
+  font-size:15px;
+  outline:none;
+}
+
+select:focus,
+input:focus{
+  border-color:var(--green);
+}
+
+/* Footer */
+.ft{
+  margin-top:16px;
+  text-align:center;
+  color:#bbbbbb;
+}
+
+/* Hide honeypot */
+.hp{ display:none !important }
+
+/* Mobile optimization */
+@media (max-width:420px){
+  .grid{ grid-template-columns:1fr }
+  .btn{ font-size:17px }
+}
+/* ================================
+   MAP PREVIEW BUTTON
+   ================================ */
+
+#mapPreview {
+  display: none;          /* hidden by default */
+  margin-top: 10px;
+  height: 52px;           /* match .btn height */
+}
+
+/* When JS shows it, force flex so vertical centering works */
+#mapPreview.is-visible {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* ================================
+   MAP PREVIEW BUTTON
+   ================================ */
+
+#mapPreview {
+  display: none;          /* hidden by default */
+  margin-top: 10px;
+  height: 52px;           /* match .btn */
+}
+
+#mapPreview.is-visible {
+  display: flex;          /* MUST be flex for vertical centering */
+  align-items: center;
+  justify-content: center;
+}

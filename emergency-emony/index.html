@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0f19" />
+  <title>Emergency Info</title>
+  <link rel="stylesheet" href="./emergency.css" />
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="card">
+
+      <!-- HEADER -->
+      <header class="hdr">
+        <h1>🚨 Emergency Info: Emony</h1>
+        <p class="sub">
+          If found unresponsive, call emergency services immediately.
+          Get help on the way first, then begin CPR.
+        </p>
+      </header>
+
+      <!-- CPR / IMMEDIATE ACTION (FIRST PRIORITY) -->
+      <section class="block">
+        <h2>🚑 CPR — ACT NOW</h2>
+
+        <ul class="list">
+          <li>Call emergency services</li>
+          <li>Push hard and fast in the center of the chest</li>
+          <li>100–120 compressions per minute</li>
+        </ul>
+
+        <div class="grid">
+          <a class="btn primary"
+             href="https://www.youtube.com/watch?v=VZqG-tcZvfE"
+             target="_blank"
+             rel="noopener">
+            ▶ Play CPR Video (2:49)
+          </a>
+
+          <a class="btn ghost" href="tel:911">
+            Call 911
+          </a>
+        </div>
+
+        <p class="tiny">
+          Do not stop compressions until help arrives or the person responds.
+        </p>
+      </section>
+
+      <!-- EMERGENCY CONTACTS -->
+      <section class="block">
+        <h2>Emergency Contacts</h2>
+
+        <div class="grid">
+          <a class="btn primary" href="tel:+15033813638">Jynnefer (Mom)</a>
+          <a class="btn" href="tel:+15033813014">Wazir (Dad)</a>
+          <a class="btn"
+             href="sms:+15033813638?&body=Hi%20-%20There%20is%20an%20emergency.%20Please%20call%20me%20back.">
+            Text Primary
+          </a>
+        </div>
+      </section>
+
+      <!-- MEDICAL NOTES -->
+      <section class="block">
+        <h2>Medical Notes</h2>
+        <ul class="list">
+          <li><strong>Name:</strong> Emony Robinson</li>
+          <li><strong>Allergies:</strong> None</li>
+          <li><strong>Conditions:</strong> None</li>
+          <li><strong>Meds:</strong> None</li>
+        </ul>
+      </section>
+
+      <!-- LOST & FOUND -->
+      <section class="block">
+        <h2>Found This Item?</h2>
+        <p class="muted">
+          Please contact the owner: Emony. If no answer, send a text with your name and where you found it.
+        </p>
+
+        <div class="grid">
+          <a class="btn" href="tel:+15035168611">Call Emony</a>
+          <a class="btn"
+             href="sms:+15035168611?&body=I%20found%20your%20item%20near%20____.%20My%20name%20is%20____.%20Please%20call%20me.">
+            Text Emony
+          </a>
+          <button class="btn ghost" id="copyMsgBtn" type="button">
+            Copy Text Template
+          </button>
+        </div>
+      </section>
+
+      <!-- CHECK-IN -->
+      <section class="block">
+        <h2>Check In</h2>
+        <p class="muted">
+          Tap “I’m Safe” to notify family. Location is optional.
+        </p>
+
+        <form id="checkinForm"
+              class="form"
+              method="POST"
+              action="https://formspree.io/f/xpqjdawk">
+
+          <input type="hidden" name="_subject" value="Family Check-In" />
+          <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" />
+
+          <input type="hidden" name="person" value="Emony Robinson" />
+          <input type="hidden" name="map_link" id="map_link" />
+
+          <label>
+            Status
+            <select name="status" required>
+              <option value="" selected disabled>Select</option>
+              <option>I’m safe</option>
+              <option>Picked up</option>
+              <option>Arrived</option>
+              <option>Leaving now</option>
+            </select>
+          </label>
+
+          <label>
+            Note (optional)
+            <input name="note" type="text" placeholder="At practice, at home, etc." />
+          </label>
+
+          <!-- LOCATION (OPTIONAL) -->
+          <input type="hidden" name="lat" id="lat" />
+          <input type="hidden" name="lng" id="lng" />
+          <input type="hidden" name="accuracy_m" id="acc" />
+
+          <div class="grid">
+            <button class="btn primary" id="safeBtn" type="submit">I’m Safe</button>
+            <button class="btn" id="getLocBtn" type="button">Add Location</button>
+          </div>
+
+          <p class="tiny" id="statusMsg" aria-live="polite"></p>
+
+          <!-- Map preview (hidden until location is added) -->
+          <a
+            id="mapPreview"
+            class="btn"
+            href="#"
+            target="_blank"
+            rel="noopener"
+          >
+            📍 View location on map
+          </a>
+        </form>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="ft">
+        <small>Last updated: <span id="updatedAt"></span></small>
+      </footer>
+
+    </section>
+  </main>
+
+  <script src="./emergency.js"></script>
+</body>
+</html>
